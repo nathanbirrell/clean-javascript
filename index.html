@@ -18,13 +18,7 @@
         <p>Maintainable, Readable, Simple, Tested</p><img src="images/wtf.png">
       </section>
       <section>
-        <h3>Why?</h3>
-      </section>
-      <section>
         <h3>Total cost of owning a mess</h3><img src="images/mess.png">
-      </section>
-      <section>
-        <h3>Attitude</h3>
       </section>
       <section>
         <h2>2. Meaningful Names</h2>
@@ -36,26 +30,32 @@
         </ul>
       </section>
       <section>
-        <p>Intention-revealing</p>
-        <pre><code class="language-javascript">self.getThem = function(theList) {
-    var list1 = [];
-    for (var i = 0; i < theList.length; i++) {
-        if (theList[i] === 4) {
-            list1.push(theList[i]);
-        }
+        <p>2. Meaningful Names</p>
+        <ul>
+          <li>
+            <pre><code class="language-javascript">self.getThem = function(theList) {
+  var list1 = [];
+  for (var i = 0; i < theList.length; i++) {
+    if (theList[i] === 4) {
+      list1.push(theList[i]);
     }
-    return list1;
+  }
+  return list1;
 };</code></pre>
-        <pre><code class="language-javascript">self.getFlaggedCells = function(gameBoard) {
-    var flaggedCells = [];
-    $.each(gameBoard, function(index, currentCell) {
-        if (currentCell.status === 'FLAGGED') {
-            flaggedCells.push(currentCell);
-        }
-    });
-    return flaggedCells;
+          </li>
+          <li>
+            <pre><code class="language-javascript">self.getFlaggedCells = function(gameBoard) {
+  var flaggedCells = [];
+  $.each(gameBoard, function(index, currentCell) {
+    if (currentCell.status === 'FLAGGED') {
+      flaggedCells.push(currentCell);
+    }
+  });
+  return flaggedCells;
 };
 </code></pre>
+          </li>
+        </ul>
       </section>
       <section>
         <h2>3. Functions</h2>
@@ -69,6 +69,67 @@
           <li>No side effects</li>
           <li>DRY</li>
         </ul>
+      </section>
+      <section>
+        <p>3. Functions
+          <pre><code class="language-javascript">// bad
+self.init = function() {
+ // WS call in init :(
+ $.get(API_URL_MANAGE_SERVICE).done(function(result) {
+  // too many lines of logic inside .done() :(
+  var oldService;
+  
+  self.allServices(result.manageService.availablePlans.terms);
+  
+  self.initSelectedServiceAndVisibleServices();
+  
+  oldService = result.manageService;
+  
+  if (result.updateState) {
+   // 3 levels deep in indentation, difficult to read
+   self.updateState(result.updateState);
+   delete oldService.updateState;
+  }
+  
+  delete oldService.availablePlans; 
+  self.oldService(oldService);
+  
+  self.initialiseCardsStatus();
+ });
+ 
+ // Mixing layers of abstraction -- this is an INIT function (high level)
+ // Unnecessary comments
+ var summaryTitleHeight = 70; // height of title is always 70
+ var summaryContainerOffset = $('#ctn-service-summary').offset().top;
+ var summaryInView =
+  (summaryContainerOffset + summaryTitleHeight) - $(window).height() - $(window).scrollTop() < 0;
+  
+ self.serviceSummarySection.stickySummary(!summaryInView);
+};</code></pre>
+        </p>
+      </section>
+      <section>
+        <p>3. Functions
+          <pre><code class="language-javascript">// good 
+self.init = function() {
+ self.apiRetrieve();
+ self.initialiseCardsStatus();
+ self.serviceSummarySection.setStickySummary();
+};
+
+self.apiRetrieve = function() {
+ $.get(API_URL_MANAGE_SERVICE)
+ .done(function(result) {
+  try {
+   self.parseApiData(result);
+  } catch (e) {
+   self.viewState.serverError(true);
+  }
+ });
+ // handle fail, etc. etc.
+};
+</code></pre>
+        </p>
       </section>
       <section>
         <h2>4. Comments</h2>
