@@ -13,60 +13,84 @@ html
 
       section
         h1 Clean Javascript
-        h2 by Nathan Birrell
+        h3 by Nathan Birrell
 
       section
-        h2 Keyboard Interaction
-        h3 Powered by <a href="https://github.com/markdalgleish/bespoke-keys">bespoke-keys</a>
+        img(src='images/books.png')
 
       section
-        h2 Touch Interaction
-        h3 Powered by <a href="https://github.com/markdalgleish/bespoke-touch">bespoke-touch</a>
-
-      section
-        h2 Responsive Slides
-        h3 Powered by <a href="https://github.com/markdalgleish/bespoke-scale">bespoke-scale</a>
-
-      section
-        h2 Bullet List
-        h3.bullet Powered by <a href="https://github.com/markdalgleish/bespoke-bullets">bespoke-bullets</a>
+        h2 1. Clean Code
         ul
-          li Bullet 1
-          li Bullet 2
-          li Bullet 3
+          li Maintainable
+          li Readable
+          li Simple
+          li Tested
 
       section
-        h2 Syntax Highlighting
-        h3 Powered by <a href="http://twitter.com/LeaVerou">Lea Verou</a>'s <a href="https://github.com/LeaVerou/prism">Prism</a>
+        h3 Why?
+
+      section
+        h3 Total cost of owning a mess
+        img(src='images/mess.png')
+
+      section
+        h3 Attitude
+
+      section
+        h2 2. Meaningful Names
+        ul
+          li Meaningful, intention-revealing, pronounceable
+          li Avoid disinformation
+          li <b>Nouns</b> for classes, <b>verbs</b> for methods
+          li Do not hesitate to rename poor names globally
+
+      section
+        p Intention-revealing
         pre
           code.language-javascript.
-            bespoke.from('article', [
-              classes(),
-              keys(),
-              touch(),
-              bullets('li, .bullet')
-            ]);
-
-      section(data-bespoke-hash='named-route')
-        h2 Named Route
-        h3 Powered by <a href="https://github.com/markdalgleish/bespoke-hash">bespoke-hash</a>
-        p Look up! This route has been named with a <em>'data-bespoke-hash'</em> attribute.
-
-      section.emphatic-text(data-bespoke-backdrop='emphatic')
-        h2 Emphatic Slide!
-        h3 Powered by <a href="https://github.com/markdalgleish/bespoke-backdrop">bespoke-backdrop</a>
+            self.getThem = function(theList) {
+                var list1 = [];
+                for (var i = 0; i < theList.length; i++) {
+                    if (theList[i] === 4) {
+                        list1.push(theList[i]);
+                    }
+                }
+                return list1;
+            };
+        pre
+          code.language-javascript.
+            self.getFlaggedCells = function(gameBoard) {
+                var flaggedCells = [];
+                $.each(gameBoard, function(index, currentCell) {
+                    if (currentCell.status === 'FLAGGED') {
+                        flaggedCells.push(currentCell);
+                    }
+                });
+                return flaggedCells;
+            };
 
       section
-        h2.bullet Just the beginning...
-        br
-        ul
-          li Edit <a href="http://jade-lang.com/">Jade</a> markup in <em>'src/index.jade'</em>
-          li Edit <a href="http://learnboost.github.io/stylus/">Stylus</a> styles in <em>'src/styles/main.styl'</em>
-          li Edit JavaScript in <em>'src/scripts/main.js'</em>
-        br
-        ul
-          li
-            strong Enjoy! :)
-            a(href='http://twitter.com/markdalgleish')  -@markdalgleish
+        h2 3. Functions
+        p SMALL
+        p Blocks & Indenting
+        p Do one thing
+        p One level of abstraction per function
+        p Reads top-to-bottom
+        p Switch statements
+        p Arguments
+        p No side effects
+        p Exceptions
+        p DRY
+
+      section
+        h2 4. Comments
+        p At best, a necessary evil
+        p Often lie
+        p Do not make up for bad code
+        p Clear & expressive code with few comments > complex code with many comments
+
+      section
+        strong Thanks :)
+        a(href='http://twitter.com/nathanbirrell') @nathanbirrell
 
     script(src='build/build.js')
