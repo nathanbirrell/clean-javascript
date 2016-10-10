@@ -1,96 +1,156 @@
 doctype html
 html
-  head
-    meta(charset='utf-8')
-    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1')
-    title Clean Javascript
+	head
+		meta(charset='utf-8')
+		meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1')
+		title Clean Javascript
 
-    link(rel='stylesheet', type='text/css', href='build/build.css')
+		link(rel='stylesheet', type='text/css', href='build/build.css')
 
-  body
+	body
 
-    article
+		article
 
-      section
-        h1 Clean Javascript
-        h3 by Nathan Birrell
+			section
+				h1 Clean Javascript
+				h3 by Nathan Birrell
 
-      section
-        img(src='images/books.png')
+			section
+				img(src='images/books.png')
 
-      section
-        h2 1. Clean Code
-        p Maintainable, Readable, Simple, Tested
-        img(src='images/wtf.png')
+			section
+				h2 1. Clean Code
+				p Maintainable, Readable, Simple, Tested
+				img(src='images/wtf.png')
 
-      section
-        h3 Why?
+			section
+				h3 Total cost of owning a mess
+				img(src='images/mess.png')
 
-      section
-        h3 Total cost of owning a mess
-        img(src='images/mess.png')
+			section
+				h2 2. Meaningful Names
+				ul
+					li Meaningful, intention-revealing, pronounceable
+					li Avoid disinformation
+					li <b>Nouns</b> for classes, <b>verbs</b> for methods
+					li Do not hesitate to rename poor names globally
 
-      section
-        h3 Attitude
+			section
+				p 2. Meaningful Names
+				ul
+					li 
+						pre
+							code.language-javascript.
+								self.getThem = function(theList) {
+										var list1 = [];
+										for (var i = 0; i < theList.length; i++) {
+												if (theList[i] === 4) {
+														list1.push(theList[i]);
+												}
+										}
+										return list1;
+								};
+					li 
+						pre
+							code.language-javascript.
+								self.getFlaggedCells = function(gameBoard) {
+										var flaggedCells = [];
+										$.each(gameBoard, function(index, currentCell) {
+												if (currentCell.status === 'FLAGGED') {
+														flaggedCells.push(currentCell);
+												}
+										});
+										return flaggedCells;
+								};
 
-      section
-        h2 2. Meaningful Names
-        ul
-          li Meaningful, intention-revealing, pronounceable
-          li Avoid disinformation
-          li <b>Nouns</b> for classes, <b>verbs</b> for methods
-          li Do not hesitate to rename poor names globally
+			section
+				h2 3. Functions
+				ul
+					li Smaller
+					li Blocks & Indenting
+					li Do one thing
+					li One level of abstraction per function
+					li Reads top-to-bottom
+					li Switch statements
+					li No side effects
+					li DRY
+			
+			section
+				p 3. Functions
+					pre
+						code.language-javascript.
+							// bad
+							self.init = function() {
+								// WS call in init :(
+								$.get(API_URL_MANAGE_SERVICE).done(function(result) {
+									// too many lines of logic inside .done() :(
+									var oldService;
 
-      section
-        p Intention-revealing
-        pre
-          code.language-javascript.
-            self.getThem = function(theList) {
-                var list1 = [];
-                for (var i = 0; i < theList.length; i++) {
-                    if (theList[i] === 4) {
-                        list1.push(theList[i]);
-                    }
-                }
-                return list1;
-            };
-        pre
-          code.language-javascript.
-            self.getFlaggedCells = function(gameBoard) {
-                var flaggedCells = [];
-                $.each(gameBoard, function(index, currentCell) {
-                    if (currentCell.status === 'FLAGGED') {
-                        flaggedCells.push(currentCell);
-                    }
-                });
-                return flaggedCells;
-            };
+									self.allServices(result.manageService.availablePlans.terms);
 
-      section
-        h2 3. Functions
-        ul
-          li Smaller
-          li Blocks & Indenting
-          li Do one thing
-          li One level of abstraction per function
-          li Reads top-to-bottom
-          li Switch statements
-          li No side effects
-          li DRY
+									self.initSelectedServiceAndVisibleServices();
 
-      section
-        h2 4. Comments
-        ul
-          li At best, a necessary evil
-          li Comments often lie
-          li Do not make up for bad code
-          li Good comments & bad comments
-          
-      section
-        h2 Finally
+									oldService = result.manageService;
 
-      section
-        strong Thanks :)
-        a(href='http://twitter.com/nathanbirrell') @nathanbirrell
+									if (result.updateState) {
+										// 3 levels deep in indentation, difficult to read
+										self.updateState(result.updateState);
+										delete oldService.updateState;
+									}
 
-    script(src='build/build.js')
+									delete oldService.availablePlans; 
+									self.oldService(oldService);
+
+									self.initialiseCardsStatus();
+								});
+
+								// Mixing layers of abstraction -- this is an INIT function (high level)
+								// Unnecessary comments
+								var summaryTitleHeight = 70; // height of title is always 70
+								var summaryContainerOffset = $('#ctn-service-summary').offset().top;
+								var summaryInView =
+									(summaryContainerOffset + summaryTitleHeight) - $(window).height() - $(window).scrollTop() < 0;
+
+								self.serviceSummarySection.stickySummary(!summaryInView);
+							};
+			section
+				p 3. Functions
+					pre
+						code.language-javascript.
+							// good 
+							self.init = function() {
+								self.apiRetrieve();
+								self.initialiseCardsStatus();
+								self.serviceSummarySection.setStickySummary();
+							};
+
+							self.apiRetrieve = function() {
+								$.get(API_URL_MANAGE_SERVICE)
+								.done(function(result) {
+									try {
+										self.parseApiData(result);
+									} catch (e) {
+										self.viewState.serverError(true);
+									}
+								});
+								
+								// handle fail, etc. etc.
+							};
+								
+
+			section
+				h2 4. Comments
+				ul
+					li At best, a necessary evil
+					li Comments often lie
+					li Do not make up for bad code
+					li Good comments & bad comments
+					
+			section
+				h2 Finally
+
+			section
+				strong Thanks :)
+				a(href='http://twitter.com/nathanbirrell') @nathanbirrell
+
+		script(src='build/build.js')
