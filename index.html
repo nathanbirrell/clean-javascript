@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Clean Javascript</title>
+    <link rel="stylesheet" type="text/css" href="build/build.css">
+  </head>
+  <body>
+    <article>
+      <section>
+        <h1>Clean Javascript</h1>
+        <h3>by Nathan Birrell</h3>
+      </section>
+      <section><img src="images/books.png"></section>
+      <section>
+        <h2>1. Clean Code</h2>
+        <p>Maintainable, Readable, Simple, Tested</p><img src="images/wtf.png">
+      </section>
+      <section>
+        <h3>Why?</h3>
+      </section>
+      <section>
+        <h3>Total cost of owning a mess</h3><img src="images/mess.png">
+      </section>
+      <section>
+        <h3>Attitude</h3>
+      </section>
+      <section>
+        <h2>2. Meaningful Names</h2>
+        <ul>
+          <li>Meaningful, intention-revealing, pronounceable</li>
+          <li>Avoid disinformation</li>
+          <li><b>Nouns</b> for classes, <b>verbs</b> for methods</li>
+          <li>Do not hesitate to rename poor names globally</li>
+        </ul>
+      </section>
+      <section>
+        <p>Intention-revealing</p>
+        <pre><code class="language-javascript">self.getThem = function(theList) {
+    var list1 = [];
+    for (var i = 0; i < theList.length; i++) {
+        if (theList[i] === 4) {
+            list1.push(theList[i]);
+        }
+    }
+    return list1;
+};</code></pre>
+        <pre><code class="language-javascript">self.getFlaggedCells = function(gameBoard) {
+    var flaggedCells = [];
+    $.each(gameBoard, function(index, currentCell) {
+        if (currentCell.status === 'FLAGGED') {
+            flaggedCells.push(currentCell);
+        }
+    });
+    return flaggedCells;
+};
+</code></pre>
+      </section>
+      <section>
+        <h2>3. Functions</h2>
+        <ul>
+          <li>Smaller</li>
+          <li>Blocks & Indenting</li>
+          <li>Do one thing</li>
+          <li>One level of abstraction per function</li>
+          <li>Reads top-to-bottom</li>
+          <li>Switch statements</li>
+          <li>No side effects</li>
+          <li>DRY</li>
+        </ul>
+      </section>
+      <section>
+        <h2>4. Comments</h2>
+        <ul>
+          <li>At best, a necessary evil</li>
+          <li>Comments often lie</li>
+          <li>Do not make up for bad code</li>
+          <li>Good comments & bad comments</li>
+        </ul>
+      </section>
+      <section>
+        <h2>Finally</h2>
+      </section>
+      <section><strong>Thanks :)</strong><a href="http://twitter.com/nathanbirrell">@nathanbirrell</a></section>
+    </article>
+    <script src="build/build.js"></script>
+  </body>
+</html>
